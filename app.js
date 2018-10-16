@@ -14,20 +14,21 @@ var courses = [
 	{ id : 3, name : 'Course 3'},
 ]
 
+
+
+
 app.get('/api/courses/:id', (req, res) => {
 	const course = courses.find(c => c.id === parseInt(req.params.id));
 	if (!course) res.status(404).send("Given course id not found, fuck off please.");
 	res.send(course);
 });
 
-app.post('/api/courses', (req, res) => {
-	const schema = {
-		name: Joi.string().min(3).required()
-	};
-	var result = Joi.validate(req.body, schema);
 
-	if (result.error) {
-		res.status(400).send(result.error.details[0].message);
+
+app.post('/api/courses', (req, res) => {
+	var { error } = validateCourse(req.body); //object destructure
+	if (error) {
+		res.status(400).send(error.details[0].message);
 		return;
 	}
 
@@ -38,3 +39,26 @@ app.post('/api/courses', (req, res) => {
 	courses.push(course);
 	res.send(course);
 });
+
+
+app.put('/api/courses/:id', (req, res) => {
+	const course = courses.find(c => c.id === parseInt(req.params.id));
+	if (!course) res.status(404).send("Given course id not found, fuck off please.");
+
+	var { error } = validateCourse(req.body); //object destructure
+	if (error) {
+		res.status(400).send(error.details[0].message);
+		return;
+	}
+
+	course.name = req.body.name;
+	res.send(course);
+})
+
+
+function validateCourse(course) {
+	const schema = {
+		name: Joi.string().min(3).required()
+	};
+	return Joi.validate(course, schema);
+}
