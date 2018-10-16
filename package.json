@@ -1,0 +1,25 @@
+{
+  "name": "express_excercise",
+  "version": "1.0.0",
+  "description": "handling http services exercise",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/littleizzy"
+  },
+  "keywords": [
+    "http",
+    "get",
+    "post",
+    "postman"
+  ],
+  "author": "Izzy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.4"
+  }
+}
