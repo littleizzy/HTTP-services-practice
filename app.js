@@ -13,6 +13,9 @@ app.listen(port, () => console.log(`Listening on port ${port} ...`));
 
 //Loading Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended : true}));
+app.use(express.static('public'));
+
 app.use(logger);
 app.use(autenticator);
 
