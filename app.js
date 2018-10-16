@@ -41,6 +41,9 @@ dbDebugger('Debugging app:db...')
 console.log(`Application name: ${config.get('name')}`);
 console.log(`Application server: ${config.get('mail.host')}`);
 
+//Templating engine
+app.set('view engine', 'pug');
+app.set('views', './views'); //This is set by default, here just to show
 
 
 var courses = [
@@ -49,7 +52,13 @@ var courses = [
 	{ id : 3, name : 'Course 3'},
 ]
 
+app.get('/', (req, res) => {
+	res.render('index', { title: 'My Express App', message: 'Fuck off'});
+})
 
+app.get('/api/courses', (req, res) => {
+	res.send(courses);
+})
 
 
 app.get('/api/courses/:id', (req, res) => {
