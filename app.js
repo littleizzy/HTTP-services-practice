@@ -1,11 +1,21 @@
+//Importing Modules
 const express = require('express');
 const Joi = require('joi');
+const logger = require('./logger.js');
+const autenticator = require('./authenticator.js');
 
+
+//Creating Server
 const app = express();
 const port = process.env.PORT || 3000;
-
-app.use(express.json());
 app.listen(port, () => console.log(`Listening on port ${port} ...`));
+
+
+//Loading Middleware
+app.use(express.json());
+app.use(logger);
+app.use(autenticator);
+
 
 
 var courses = [
