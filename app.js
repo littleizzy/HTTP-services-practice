@@ -4,6 +4,10 @@ const Joi = require('joi');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('config');
+const routeDebugger = require('debug')('app:route'); //export DEBUG=app:route
+const dbDebugger = require('debug')('app:db');
+
+
 const logger = require('./logger.js');
 const autenticator = require('./authenticator.js');
 
@@ -26,15 +30,17 @@ app.use(autenticator);
 if (app.get('env') === 'development') { //process.env.NODE_ENV is another way to get the enviroment mode. Default is undefined. For app.get('env'), development is default.
 	app.use(helmet());
 	app.use(morgan('tiny'));
-	console.log('[Helmet] Enabled');
-	console.log('[Morgan] Enabled');
-
+	routeDebugger('[Helmet] Enabled');
+	routeDebugger('[Morgan] Enabled');
 }
+
+//Some db work
+dbDebugger('Debugging app:db...')
 
 //Configuration using config
 console.log(`Application name: ${config.get('name')}`);
 console.log(`Application server: ${config.get('mail.host')}`);
-console.log('pass: ' + config.get('password'));
+
 
 
 var courses = [
