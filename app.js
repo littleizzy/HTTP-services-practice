@@ -1,9 +1,12 @@
 const express = require('express');
+const Joi = require('joi');
+
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
-const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port} ...`));
+
 
 var courses = [
 	{ id : 1, name : 'Course 1'},
@@ -18,6 +21,16 @@ app.get('/api/courses/:id', (req, res) => {
 });
 
 app.post('/api/courses', (req, res) => {
+	const schema = {
+		name: Joi.string().min(3).required()
+	};
+	var result = Joi.validate(req.body, schema);
+
+	if (result.error) {
+		res.status(400).send(result.error.details[0].message);
+		return;
+	}
+
 	const course = {
 		id : courses.length + 1,
 		name : req.body.name
